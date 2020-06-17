@@ -24,16 +24,6 @@
 				}
 			}
 
-			stage('SonarQube analysis') {
-			 steps {
-			//Prepare SonarQube scanner enviornment
-			withSonarQubeEnv('Sonarqube_scanner') {
-			   sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar'
-			}
-			  }
-		}
-
-
 		stage('Artifactory configuration') {
 			
 		   steps {
@@ -67,7 +57,15 @@
 			}
 			
 		}}
-
+                        
+                stage('SonarQube analysis') {
+			 steps {
+			//Prepare SonarQube scanner enviornment
+			withSonarQubeEnv('Sonarqube_scanner') {
+			   sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar'
+			}
+			  }
+		}
 		stage('Publish build info') {
 			steps {
 			  script {
