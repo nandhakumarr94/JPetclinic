@@ -47,13 +47,14 @@
 			}
 		}
 		   
-		stage('Execute Maven') {
+		stage('Execute Tests and Create Build') {
 			
 			steps {
 			   script {
 			// dir(project_path) {
 			rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
-                                  // sh 'mvn clean install'
+                                  step([$class: 'JUnitResultArchiver', 
+          testResults: 'test-results/**/test-results.xml'])
 				//}
 			}
 			
