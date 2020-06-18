@@ -53,8 +53,7 @@
 			   script {
 			// dir(project_path) {
 			rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
-                                  step([$class: 'JUnitResultArchiver', 
-          testResults: 'test-results/**/test-results.xml'])
+                                 
 				//}
 			}
 			
@@ -76,10 +75,15 @@
 			}
 			}
 		}
+                        stage('Deploy') {
+			steps {
+			  sh'mvnw jetty:run-war'
+			}
+		}
 		stage('status'){
 		steps {
 			emailext (
-		subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+		subject: "Completed Successfully: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
 		body: """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
 			<p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
 		to: "nandhakumarr@live.com"
