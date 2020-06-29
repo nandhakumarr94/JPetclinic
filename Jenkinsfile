@@ -77,7 +77,7 @@
 		}
                         stage('Deploy') {
 			steps {
-			  sh'mvnw jetty:run-war'
+			  sh'/var/lib/jenkins/workspace/Git_Petclinic_project/mvnw jetty:run-war'
 			}
 		}
 		stage('status'){
